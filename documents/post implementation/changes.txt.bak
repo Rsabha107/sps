@@ -1,0 +1,28 @@
+ValidateSignature.php
+FoundationServiceProvider.php
+
+C:\xampp\htdocs\laravel\mds\vendor\laravel\framework\src\Illuminate\Routing\UrlGenerator.php
+vendor\laravel\framework\src\Illuminate\Routing\UrlGenerator.php
+
+    public function hasCorrectSignature(Request $request, $absolute = true, array $ignoreQuery = [])
+    {
+        $ignoreQuery[] = 'signature';
+        $absolute = false; // $absolute is always false in this case, as per the original code logic RSABHA
+
+UrlGenerator.php
+
+
+/site/wwwroot/app/Providers
+AppServiceProvider.php
+
+    public function boot(): void
+    {
+        //
+          if (Schema::hasTable('settings')) {
+              $settings = Setting::all()->pluck('value', 'key')->toArray();
+              config(['settings' => $settings]);  // Load the settings dynamically into Laravel's config
+          }
+
+
+Delete storage directory from public
+run: php artisan storage:link
