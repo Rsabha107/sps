@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Str;
@@ -27,23 +28,71 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        $id = request()->get('id');
-        $id = 8;
-        $data = ['e' => 8, 'l' => 2];
-        Log::info('ProfileController index called');
+        // Log::info('ProfileController index called @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+        // $id = request()->get('id');
+        // $id = 8;
+        $data = ['e' => 8, 'v' => 8, 'l' => 12];
+        // $url = URL::signedRoute('spectator', $data);
+        // Log::info('Generated URL: ' . $url);
 
-        $encrypted = encryptUrlSafe($data);
-        Log::info('Encrypted data: ' . $encrypted);
+        // Log::info('ProfileController index called');
 
-        Log::info(request()->all());
-        $prohibited_items = ProhibitedItem::all();
+        // Log::info(request()->all());
+        // Log::info('Decrypted data: ' . decryptUrlSafe(request()->all()));
+        // $request = request();
+        // $request->merge($data);
+
+        // $encrypted = encryptUrlSafe($data);
+        // Log::info('Encrypted data: ' . $encrypted);
+
+        $shortEnc = superShortEncrypt($data);
+        // Log::info('Short encrypted data: ' . $shortEnc);
+
+        // $prohibited_items = ProhibitedItem::all();
+        $signedUrl = URL::temporarySignedRoute(
+            'spectator',
+            now()->addMinutes(5),
+            ['data' => $shortEnc]
+        );
         // dd($prohibited_items);
-        return view('sps.customer.visitor', ['prohibitedItems' => $prohibited_items, 'encrypted' => $encrypted]);
+        return redirect($signedUrl);
+        // return redirect()->route('spectator', ['prohibitedItems' => $prohibited_items, 'data' => $data]);
+        // return view('sps.customer.visitor', ['prohibitedItems' => $prohibited_items, 'data' => $data]);
+    }
+
+    public function spectator()
+    {
+        $all_data = request()->all();
+        // Log::info('ProfileController spectator called ****************************************');
+        // Log::info('Request data: ' . json_encode($all_data));
+        if (!request()->has('data')) {
+            // Log::error('No data provided in request');
+            return redirect()->route('index')->with('error', 'No data provided');
+        }
+
+        // Decrypt the data
+        try {
+            $decrypted = superShortDecrypt(request('data'));
+            // Log::info('Decrypted data: ' . json_encode($decrypted));
+        } catch (\Exception $e) {
+            // Log::error('Decryption failed: ' . $e->getMessage());
+            return redirect()->route('index')->with('error', 'Invalid data provided');
+        }
+        // $data = request('data');
+
+        // Log::info('ProfileController spectator called');
+        // Log::info('Encrypted data: ' . json_encode($data));
+        // $decrypted = superShortDecrypt($data);
+        $prohibited_items = ProhibitedItem::all();
+        return view('sps.customer.visitor', ['prohibitedItems' => $prohibited_items, 'data' => $decrypted]);
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'venue_id' => 'required|exists:venues,id',
+            'location_id' => 'required|exists:locations,id',
+            'event_id' => 'required|exists:events,id',
             'first_name' => 'required|string|max:50',
             'last_name'  => 'required|string|max:50',
             'phone'      => 'required|string|max:20',
@@ -67,9 +116,11 @@ class ProfileController extends Controller
             $visitor->email_address = $request->email_address;
             $visitor->venue_id = $request->venue_id;
             $visitor->location_id = $request->location_id;
+            $visitor->event_id = $request->event_id;
+
             $visitor->save();
 
-            Log::info('Created visitor: ' . $visitor->id);
+            // Log::info('Created visitor: ' . $visitor->id);
 
             // Handle items
             foreach ($request->prohibited_item_id as $key => $itemId) {
@@ -114,7 +165,9 @@ class ProfileController extends Controller
 
             DB::commit();
 
-            return redirect()->route('sps.customer.confirmation', ['profile' => $visitor])
+            $payload = Crypt::encrypt($visitor->id);
+            // $profile = base64_encode($payload);
+            return redirect()->route('sps.customer.confirmation', ['token' => $payload])
                 ->with('message', 'Visitor Information created!')
                 ->with('alert-type', 'success');
         } catch (\Throwable $e) {
@@ -128,113 +181,14 @@ class ProfileController extends Controller
         }
     }
 
-    public function storex(Request $request)
+    public function confirmation($token)
     {
-        // 1. Validate incoming request
-        $validator = Validator::make($request->all(), [
-            'first_name' => 'required|string|max:50',
-            'last_name'  => 'required|string|max:50',
-            'phone'      => 'required|string|max:20',
-            'email_address' => 'required|email|max:100',
-            'prohibited_item_id' => 'required|array',
-            'prohibited_item_id.*' => 'exists:prohibited_items,id',
-            // 'file_name' => 'nullable|file|mimes:jpg,jpeg,png|max:2048', // 2MB max
-        ]);
 
-        if ($validator->fails()) {
-            // return response()->json(['errors' => $validator->errors()], 422);
-            return redirect()->route('sps.customer.visitor')->with('errors', $validator->errors());
-        }
+        Log::info('ProfileController confirmation called');
+        $id = Crypt::decrypt($token);
+        // Log::info('Decrypted profile: ' . json_encode($id));
 
-        // 3. Create profile
-        $visitor = new Profile();
-        $visitor->first_name = $request->first_name;
-        $visitor->last_name = $request->last_name;
-        $visitor->phone = $request->phone;
-        $visitor->email_address = $request->email_address;
-        $visitor->venue_id = $request->venue_id;
-        $visitor->location_id = $request->location_id;
-        // $visitor->event_id = $request->event_id;
-
-        $visitor->save();
-
-        // 4. Handle items
-        // $items = new StoredItem();
-
-        Log::info('Prohibited Item IDs: ' . json_encode($request->prohibited_item_id));
-        Log::info('Count Prohibited Item IDs: ' . count($request->prohibited_item_id));
-
-        foreach ($request->prohibited_item_id as $key => $item) {
-            Log::info('Processing Prohibited Item ID: ' . $item);
-
-            if ($request->hasFile('file_name')) {
-
-                $file = $request->file_name[$key];
-                $fileNameWithExt = $file->getClientOriginalName();
-                // get file name
-                $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
-                // get extension
-                $extension = $file->getClientOriginalExtension();
-
-                $fileNameToStore = $filename . '_' . time() . '.' . $extension;
-                $fileNameToStore = rand() . date('ymdHis') . $file->getClientOriginalName();  // use this
-
-                // Log::info($fileNameWithExt);
-                // Log::info($filename);
-                // Log::info($extension);
-                // Log::info($fileNameToStore);
-
-                // Storage::disk('private')->putFileAs('mds/event/logo', $file, $fileNameToStore); // upload to a private disk
-                $destinationPathThumbnail = public_path('storage/items/img/');
-                $image = Image::read($file);
-                $image->resize(150, 150);
-                $image->save($destinationPathThumbnail . $fileNameToStore);
-                // Storage::disk('public')->putFileAs('contractor/logo', $file, $fileNameToStore);
-            } else {
-                $fileNameToStore = 'noimage.jpg';
-            }
-
-            $items = new StoredItem();
-            $items->item_image = $fileNameToStore;
-            $items->item_image_path = 'restricted/img/' . $fileNameToStore; // store the path to the file
-            $items->profile_id = $visitor->id;
-            $items->item_id = $request->prohibited_item_id[$key];
-            $items->item_description = $request->item_description[$key] ?? null;
-
-            $items->save();
-            Log::info('Stored Item: ' . json_encode($items));
-        }
-
-        // $items->item_quantity = $request->item_quantity;
-        $notification = array(
-            'message'       => 'Visitor Information created!',
-            'alert-type'    => 'success'
-        );
-
-        return redirect()->route('sps.customer.confirmation', ['profile' => $visitor])->with($notification);
-        // return redirect()->route('sps.customer.profile')->with($notification);
-
-        // return response()->json(['message' => 'Profile created successfully', 'profile' => $profile], 201);
-    }
-
-    public function confirmationkk(Profile $profile)
-    {
-        $qrCode = QrCode::format('svg')->size(200)->margin(1)->backgroundColor(255, 255, 255)->generate($profile->ref_number);
-        $qrBase64 = base64_encode($qrCode);
-
-
-        //Generate QR code and store it
-        $filename = 'qrcodes/profile-' . $profile->id . '-' . Str::random(6) . '.png';
-        Storage::put('public/' . $filename, $qrCode);
-        // Get the full path
-        $filePath = storage_path('app/public/' . $filename);
-
-        Mail::to($profile->email_address)->send(new QrCodeMail($profile, $filePath));
-        return view('sps.customer.confirmation', compact('profile', 'qrBase64'));
-    }
-
-    public function confirmation(Profile $profile)
-    {
+        $profile = Profile::find($id);
         $result = Builder::create()
             ->writer(new PngWriter())           // Ensure PNG format
             ->data($profile->ref_number)                       // QR code content

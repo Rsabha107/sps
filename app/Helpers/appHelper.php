@@ -38,6 +38,40 @@ if (!function_exists('encryptUrlSafe') || !function_exists('decryptUrlSafe')) {
     }
 }
 
+function superShortEncrypt(array $data): string
+{
+    $key = substr(hash('sha256', config('app.key')), 0, 16); // AES-128
+    $iv = random_bytes(16);
+    $json = json_encode($data);
+
+    $cipher = openssl_encrypt($json, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv);
+    $payload = base64url_encode($iv . $cipher);
+
+    return $payload;
+}
+
+function superShortDecrypt(string $payload): ?array
+{
+    $key = substr(hash('sha256', config('app.key')), 0, 16);
+    $raw = base64url_decode($payload);
+
+    $iv = substr($raw, 0, 16);
+    $cipher = substr($raw, 16);
+
+    $json = openssl_decrypt($cipher, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv);
+
+    return json_decode($json, true);
+}
+
+function base64url_encode(string $data): string
+{
+    return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+}
+
+function base64url_decode(string $data): string
+{
+    return base64_decode(strtr($data, '-_', '+/') . str_repeat('=', 3 - (strlen($data) + 3) % 4));
+}
 
 if (!function_exists('format_currency')) {
     function format_currency($amount, $symbol = '$')

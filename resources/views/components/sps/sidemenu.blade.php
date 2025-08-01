@@ -50,8 +50,7 @@
                                 data-bs-parent="#navbarVerticalCollapse" id="nv-MDS">
                                 <li class="collapsed-nav-item-title d-none">SPS Storage
                                 </li>
-                                <li class="nav-item"><a
-                                        class="nav-link {{ Request::is('/sps/admin') ? 'active' : '' }}"
+                                <li class="nav-item"><a class="nav-link {{ Request::is('/sps/admin') ? 'active' : '' }}"
                                         href="{{ route('sps.admin') }}">
                                         <div class="d-flex align-items-center"><span
                                                 class="nav-link-text">Check-in/List</span>
@@ -77,183 +76,153 @@
                 </li>
 
                 @if (Auth::user()->can('setup.menu'))
-                <li class="nav-item">
-                    <!-- label-->
-                    <p class="navbar-vertical-label">Settings
-                    </p>
-                    <hr class="navbar-vertical-line" />
-                    <!-- parent pages-->
-                    <div class="nav-item-wrapper">
-                        <a
-                            class="nav-link label-1 {{ Request::is('setting/event') ? 'active' : '' }}"
-                            href="{{ route('setting.event') }}" role="button" data-bs-toggle=""
-                            aria-expanded="false">
-                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span
-                                        data-feather="compass"></span></span><span
-                                    class="nav-link-text-wrapper"><span class="nav-link-text">Event</span></span>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- parent pages-->
-                    <div class="nav-item-wrapper">
-                        <a
-                            class="nav-link label-1 {{ Request::is('setting/venue') ? 'active' : '' }}"
-                            href="{{ route('setting.venue') }}" role="button" data-bs-toggle=""
-                            aria-expanded="false">
-                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span
-                                        data-feather="compass"></span></span><span
-                                    class="nav-link-text-wrapper"><span class="nav-link-text">Venue</span></span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="nav-item-wrapper">
-                        <a
-                            class="nav-link label-1 {{ Request::is('setting/location') ? 'active' : '' }}"
-                            href="{{ route('setting.location') }}" role="button" data-bs-toggle=""
-                            aria-expanded="false">
-                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span
-                                        data-feather="compass"></span></span><span
-                                    class="nav-link-text-wrapper"><span class="nav-link-text">Location</span></span>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- parent pages-->
-                    {{-- <div class="nav-item-wrapper">
-                        <a
-                            class="nav-link label-1 {{ Request::is('cms/setting/product') ? 'active' : '' }}"
-                            href="{{ route('cms.setting.product') }}" role="button" data-bs-toggle=""
-                            aria-expanded="false">
-                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span
-                                        data-feather="compass"></span></span><span
-                                    class="nav-link-text-wrapper"><span
-                                        class="nav-link-text">Products</span></span>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- parent pages-->
-                    <div class="nav-item-wrapper">
-                        <a
-                            class="nav-link label-1 {{ Request::is('cms/setting/contractor') ? 'active' : '' }}"
-                            href="{{ route('cms.setting.contractor') }}" role="button" data-bs-toggle=""
-                            aria-expanded="false">
-                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span
-                                        data-feather="compass"></span></span><span
-                                    class="nav-link-text-wrapper"><span
-                                        class="nav-link-text">Accounts</span></span>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- parent pages-->
-                    <div class="nav-item-wrapper">
-                        <a
-                            class="nav-link label-1 {{ Request::is('cms/setting/service/period') ? 'active' : '' }}"
-                            href="{{ route('cms.setting.service.period') }}" role="button" data-bs-toggle=""
-                            aria-expanded="false">
-                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span
-                                        data-feather="compass"></span></span><span
-                                    class="nav-link-text-wrapper"><span class="nav-link-text">Service
-                                        Period</span></span>
-                            </div>
-                        </a>
-                    </div> --}}
-                </li>
+                    <li class="nav-item">
+                        <!-- label-->
+                        <p class="navbar-vertical-label">Settings
+                        </p>
+                        <hr class="navbar-vertical-line" />
+                        <!-- parent pages-->
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link label-1 {{ Request::is('setting/event') ? 'active' : '' }}"
+                                href="{{ route('setting.event') }}" role="button" data-bs-toggle=""
+                                aria-expanded="false">
+                                <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                            data-feather="compass"></span></span><span
+                                        class="nav-link-text-wrapper"><span class="nav-link-text">Event</span></span>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- parent pages-->
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link label-1 {{ Request::is('setting/venue') ? 'active' : '' }}"
+                                href="{{ route('setting.venue') }}" role="button" data-bs-toggle=""
+                                aria-expanded="false">
+                                <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                            data-feather="compass"></span></span><span
+                                        class="nav-link-text-wrapper"><span class="nav-link-text">Venue</span></span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link label-1 {{ Request::is('setting/location') ? 'active' : '' }}"
+                                href="{{ route('setting.location') }}" role="button" data-bs-toggle=""
+                                aria-expanded="false">
+                                <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                            data-feather="compass"></span></span><span
+                                        class="nav-link-text-wrapper"><span
+                                            class="nav-link-text">Location</span></span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link label-1 {{ Request::is('setting/storage-type') ? 'active' : '' }}"
+                                href="{{ route('setting.storage.type') }}" role="button" data-bs-toggle=""
+                                aria-expanded="false">
+                                <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                            data-feather="compass"></span></span><span
+                                        class="nav-link-text-wrapper"><span class="nav-link-text">Storage
+                                            Type</span></span>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
                 @endif
                 @if (Auth::user()->can('roles.permissions.menu'))
-                <li class="nav-item">
-                    <!-- label-->
-                    <p class="navbar-vertical-label">Roles and Permissions
-                    </p>
-                    <hr class="navbar-vertical-line" />
-                    <!-- parent pages-->
-                    <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1" href="#nv-list"
-                            role="button" data-bs-toggle="collapse" aria-expanded="false"
-                            aria-controls="nv-list">
-                            <div class="d-flex align-items-center">
-                                <div class="dropdown-indicator-icon-wrapper"><span
-                                        class="fas fa-caret-right dropdown-indicator-icon"></span></div><span
-                                    class="nav-link-icon"><span data-feather="file-text"></span></span><span
-                                    class="nav-link-text">List</span>
+                    <li class="nav-item">
+                        <!-- label-->
+                        <p class="navbar-vertical-label">Roles and Permissions
+                        </p>
+                        <hr class="navbar-vertical-line" />
+                        <!-- parent pages-->
+                        <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1" href="#nv-list"
+                                role="button" data-bs-toggle="collapse" aria-expanded="false"
+                                aria-controls="nv-list">
+                                <div class="d-flex align-items-center">
+                                    <div class="dropdown-indicator-icon-wrapper"><span
+                                            class="fas fa-caret-right dropdown-indicator-icon"></span></div><span
+                                        class="nav-link-icon"><span data-feather="file-text"></span></span><span
+                                        class="nav-link-text">List</span>
+                                </div>
+                            </a>
+                            <div class="parent-wrapper label-1">
+                                <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse"
+                                    id="nv-list">
+                                    <li class="collapsed-nav-item-title d-none">List
+                                    </li>
+                                    <li class="nav-item"><a
+                                            class="nav-link {{ Request::is('sec/groups/list') ? 'active' : '' }}"
+                                            href="{{ route('sec.groups.list') }}">
+                                            <div class="d-flex align-items-center"><span
+                                                    class="nav-link-text">Groups</span>
+                                            </div>
+                                        </a>
+                                        <!-- more inner pages-->
+                                    </li>
+                                    <li class="nav-item"><a
+                                            class="nav-link {{ Request::is('sec/permissions/list') ? 'active' : '' }}"
+                                            href="{{ route('sec.perm.list') }}">
+                                            <div class="d-flex align-items-center"><span
+                                                    class="nav-link-text">Permissions</span>
+                                            </div>
+                                        </a>
+                                        <!-- more inner pages-->
+                                    </li>
+                                    <li class="nav-item"><a
+                                            class="nav-link {{ Request::is('sec/roles/list') ? 'active' : '' }}"
+                                            href="{{ route('sec.roles.list') }}">
+                                            <div class="d-flex align-items-center"><span
+                                                    class="nav-link-text">Roles</span>
+                                            </div>
+                                        </a>
+                                        <!-- more inner pages-->
+                                    </li>
+                                </ul>
                             </div>
-                        </a>
-                        <div class="parent-wrapper label-1">
-                            <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse"
-                                id="nv-list">
-                                <li class="collapsed-nav-item-title d-none">List
-                                </li>
-                                <li class="nav-item"><a
-                                        class="nav-link {{ Request::is('sec/groups/list') ? 'active' : '' }}"
-                                        href="{{ route('sec.groups.list') }}">
-                                        <div class="d-flex align-items-center"><span
-                                                class="nav-link-text">Groups</span>
-                                        </div>
-                                    </a>
-                                    <!-- more inner pages-->
-                                </li>
-                                <li class="nav-item"><a
-                                        class="nav-link {{ Request::is('sec/permissions/list') ? 'active' : '' }}"
-                                        href="{{ route('sec.perm.list') }}">
-                                        <div class="d-flex align-items-center"><span
-                                                class="nav-link-text">Permissions</span>
-                                        </div>
-                                    </a>
-                                    <!-- more inner pages-->
-                                </li>
-                                <li class="nav-item"><a
-                                        class="nav-link {{ Request::is('sec/roles/list') ? 'active' : '' }}"
-                                        href="{{ route('sec.roles.list') }}">
-                                        <div class="d-flex align-items-center"><span
-                                                class="nav-link-text">Roles</span>
-                                        </div>
-                                    </a>
-                                    <!-- more inner pages-->
-                                </li>
-                            </ul>
                         </div>
-                    </div>
-                    <!-- parent pages-->
-                    <div class="nav-item-wrapper"><a
-                            class="nav-link label-1 {{ Request::is('sec/rolesetup/list') ? 'active' : '' }}"
-                            href="{{ route('sec.rolesetup.list') }}" role="button" data-bs-toggle=""
-                            aria-expanded="false">
-                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span
-                                        data-feather="server"></span></span><span
-                                    class="nav-link-text-wrapper"><span class="nav-link-text">Roles in
-                                        Permission</span></span>
-                            </div>
-                        </a>
-                    </div>
-                </li>
+                        <!-- parent pages-->
+                        <div class="nav-item-wrapper"><a
+                                class="nav-link label-1 {{ Request::is('sec/rolesetup/list') ? 'active' : '' }}"
+                                href="{{ route('sec.rolesetup.list') }}" role="button" data-bs-toggle=""
+                                aria-expanded="false">
+                                <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                            data-feather="server"></span></span><span
+                                        class="nav-link-text-wrapper"><span class="nav-link-text">Roles in
+                                            Permission</span></span>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
                 @endif
                 @if (Auth::user()->can('manage.admin.users.menu'))
-                <li class="nav-item">
-                    <!-- label-->
-                    <p class="navbar-vertical-label">User Management
-                    </p>
-                    <hr class="navbar-vertical-line" />
-                    <!-- parent pages-->
-                    <div class="nav-item-wrapper"><a
-                            class="nav-link label-1 {{ Request::is('sec/adminuser/list') }}"
-                            href="{{ route('sec.adminuser.list') }}" role="button" data-bs-toggle=""
-                            aria-expanded="false">
-                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span
-                                        data-feather="life-buoy"></span></span><span
-                                    class="nav-link-text-wrapper"><span class="nav-link-text">List
-                                        Users</span></span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="nav-item-wrapper"><a
-                            class="nav-link label-1 {{ Request::is('sec/adminuser/add') }}"
-                            href="{{ route('sec.adminuser.add') }}" role="button" data-bs-toggle=""
-                            aria-expanded="false">
-                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span
-                                        data-feather="life-buoy"></span></span><span
-                                    class="nav-link-text-wrapper"><span class="nav-link-text">Add
-                                        User</span></span>
-                            </div>
-                        </a>
-                    </div>
-                </li>
+                    <li class="nav-item">
+                        <!-- label-->
+                        <p class="navbar-vertical-label">User Management
+                        </p>
+                        <hr class="navbar-vertical-line" />
+                        <!-- parent pages-->
+                        <div class="nav-item-wrapper"><a
+                                class="nav-link label-1 {{ Request::is('sec/adminuser/list') }}"
+                                href="{{ route('sec.adminuser.list') }}" role="button" data-bs-toggle=""
+                                aria-expanded="false">
+                                <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                            data-feather="life-buoy"></span></span><span
+                                        class="nav-link-text-wrapper"><span class="nav-link-text">List
+                                            Users</span></span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="nav-item-wrapper"><a
+                                class="nav-link label-1 {{ Request::is('sec/adminuser/add') }}"
+                                href="{{ route('sec.adminuser.add') }}" role="button" data-bs-toggle=""
+                                aria-expanded="false">
+                                <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                            data-feather="life-buoy"></span></span><span
+                                        class="nav-link-text-wrapper"><span class="nav-link-text">Add
+                                            User</span></span>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
                 @endif
                 <li class="nav-item">
                     <!-- label-->

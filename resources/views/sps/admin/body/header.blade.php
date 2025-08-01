@@ -19,8 +19,6 @@
             <a class="navbar-brand me-1 me-sm-3" href="{{ route('sps.admin') }}">
                 <div class="d-flex align-items-center">
                     <div class="d-flex align-items-center">
-                        {{-- <img src="{{ asset('assets/img/icons/mds.jpg') }}" alt="{{ __('mds.page_title') }}"
-                            width="27" /> --}}
                         <img src="{{ asset(config('settings.website_logo')) }}" alt="{{ __('mds.page_title') }}"
                             width="150" />
                         {{-- @if ($session_set) --}}
@@ -28,19 +26,11 @@
                         <div class="theme-control-toggle fa-icon-wait px-2 d-none d-sm-block">
                             <h6 class="mt-2 d-sm-block d-none text-primary">({{ $event?->name }})</h6>
                         </div>
-                        {{-- @else
-                        <h6 class="logo-text ms-2 d-none d-sm-block">{{ __('mds.page_title') }}</h6>
-                            @endif --}}
-                        {{-- <div class="theme-control-toggle fa-icon-wait px-2">
-                            <h6 class="mt-2">({{ $event->name }})</h6>
-                        </div> --}}
                     </div>
                 </div>
             </a>
         </div>
         @php
-            // $user_events = auth()->user()->events;
-            // $user_events = $user_events->where('active_flag', 1)->sortBy('name');
             $user_events = App\Models\Setting\Event::where('active_flag', 1)->orderBy('name')->get();
         @endphp
 
@@ -110,13 +100,7 @@
                                                         alt="" />
                                                 </div>
                                                 <div class="flex-1 me-sm-3">
-                                                    
-                                                        {{-- <p class="fs-9 text-body-highlight mb-2 mb-sm-3 fw-normal"><span
-                                                                class='me-1 fs-10'>💬</span>Event
-                                                            <span class="ms-2 text-body-quaternary text-opacity-75 fw-bold fs-10">10m</span>
-                                                        </p> --}}
                                                     <h4 class="fs-9 text-body-emphasis">{{ $event?->name }}</h4>
-
                                                 </div>
                                             </div>
 
@@ -126,10 +110,6 @@
                                 @endforeach
                             </div>
                         </div>
-                        {{-- <div class="card-footer p-0 border-top border-translucent border-0">
-                            <div class="my-2 text-center fw-bold fs-10 text-body-tertiary text-opactity-85"><a
-                                    class="fw-bolder" href="pages/notifications.html">Notification history</a></div>
-                        </div> --}}
                     </div>
                 </div>
             </li>
@@ -150,17 +130,6 @@
                     <div class="card position-relative border-0">
                         <div class="card-body p-0">
                             <div class="text-center pt-4 pb-3">
-                                {{-- <div class="avatar avatar-xl ">
-                                    <img class="rounded-circle "
-                                        src="{{ asset('fnx/assets/img/team/72x72/57.webp') }}" alt="" />
-
-                                </div> --}}
-                                {{-- <h6 class="mt-2 text-body-emphasis">{{$profileData->name}}</h6> --}}
-                            </div>
-                            {{-- <div class="mb-3 mx-3">
-                                <input class="form-control form-control-sm" id="statusUpdateInput" type="text"
-                                    placeholder="Update your status" />
-                            </div> --}}
                         </div>
                         <div class="overflow-auto scrollbar" style="height: 10rem;">
                             <ul class="nav d-flex flex-column mb-2 pb-1">
@@ -168,10 +137,6 @@
                                         href="{{ route('cms.admin.users.profile') }}"> <span
                                             class="me-2 text-body align-bottom"
                                             data-feather="user"></span><span>Profile</span></a></li>
-                                {{-- <li class="nav-item"><a class="nav-link px-3 d-block"
-                                        href="{{ route('mds.admin.dashboard') }}"><span
-                                            class="me-2 text-body align-bottom"
-                                            data-feather="pie-chart"></span>Dashboard</a></li> --}}
                                 <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"> <span
                                             class="me-2 text-body align-bottom"
                                             data-feather="settings"></span>Settings &amp; Privacy </a></li>
@@ -184,22 +149,8 @@
                             </ul>
                         </div>
                         <div class="card-footer p-2">
-                            {{-- <div class="card-footer p-0 border-top border-translucent"> --}}
-                            {{-- <ul class="nav d-flex flex-column my-3">
-                                <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"> <span
-                                            class="me-2 text-body align-bottom" data-feather="user-plus"></span>Add
-                                        another account</a></li>
-                            </ul> --}}
-                            {{-- <hr /> --}}
+
                             <div class="px-3">
-                                {{-- <li>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                                        @csrf
-                                        <button class="dropdown-item" type="submit">
-                                            Logout
-                                        </button>
-                                    </form>
-                                </li> --}}
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST">
                                     @csrf
                                     <button class="nav-link text-danger" type="submit">
@@ -207,14 +158,7 @@
                                         </span>Sign out
                                     </button>
                                 </form>
-                                {{-- <a class="btn btn-phoenix-secondary d-flex flex-center w-100"
-                                    href="{{ route('logout') }}"> <span class="me-2" data-feather="log-out">
-                                    </span>Sign out</a> --}}
                             </div>
-                            {{-- <div class="my-2 text-center fw-bold fs-10 text-body-quaternary"><a
-                                    class="text-body-quaternary me-1" href="#!">Privacy policy</a>&bull;<a
-                                    class="text-body-quaternary mx-1" href="#!">Terms</a>&bull;<a
-                                    class="text-body-quaternary ms-1" href="#!">Cookies</a></div> --}}
                         </div>
                     </div>
                 </div>

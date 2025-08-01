@@ -1,4 +1,4 @@
-@extends('sps.layout.admin_template')
+@extends('sps.admin.layout.template')
 @section('main')
 
 

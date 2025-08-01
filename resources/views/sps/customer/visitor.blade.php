@@ -1,13 +1,21 @@
 @extends('sps.customer.layout.template')
 @section('main')
 
+@php
+    // $params = decryptUrlSafe($encrypted);
+    // Log::info('ProfileController index called ');
+    // Log::info('Decrypted data: ' . json_encode($params));
+    $data = (object) $data;
+    Log::info('Data: ' . json_encode($data));
+@endphp
+
     <div class="container">
         <form method="POST" action="{{ route('visitor.store') }}" class="forms-sample" id="visitor_form"
             enctype="multipart/form-data">
-            {{-- <form method="POST" action="{{ route('visitor.store') }}" class="forms-sample" id="visitor_form"> --}}
             @csrf
-            <input type="hidden" name="venue_id" value="8">
-            <input type="hidden" name="location_id" value="12">
+            <input type="hidden" name="event_id" value="{{ $data->e }}">
+            <input type="hidden" name="venue_id" value="{{ $data->v }}">
+            <input type="hidden" name="location_id" value="{{ $data->l }}">
             <div class="row flex-center min-vh-100 py-5">
 
                 <div class="col-sm-10 col-md-8 col-lg-5 col-xl-5 col-xxl-3">
